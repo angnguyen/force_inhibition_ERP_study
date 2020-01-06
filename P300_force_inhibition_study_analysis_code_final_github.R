@@ -566,81 +566,112 @@ P3_model_exp2_plot <- plot_summs(P3_force_binary_model_exp2, P3_force_only_model
   ylab("") +
   theme_classic()
 P3_model_exp2_plot
-
 grid.arrange(P3_model_exp1_plot, P3_model_exp2_plot, nrow = 2, ncol = 1)
 
+##############################
+### Supplementary Analysis ###
+##############################
 
-# ##########################################################################################################
-# ### Additional Supplementary Analysis - Examining P300-force relationship on Go and Inhibitions trials ###
-# ##########################################################################################################
-# 
 # # Exp. 1 - P3 ~ Force + Condition
-# data2use <- as.data.table(subset(all_data_exp1, Condition %in% c("Valid Go", "Failed Stop")))
-# data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
-# P3_force_model_exp1 <- lmerTest::lmer(P3_amplitude ~ sPeak_force*Condition + (1|Subject_ID), data = data2use)
-# anova(P3_force_model_exp1)
-# summ(P3_force_model_exp1)
-# # r2beta(P3_force_model_exp1, method = "kr")
-# 
-# # Interaction follow-up 1 (go trials)
-# data2use <- as.data.table(subset(all_data_exp1, Condition %in% c("Valid Go", "Failed Stop")))
-# data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
-# data2use <- as.data.table(subset(data2use, Condition %in% c("Valid Go")))
-# P3_force_model_exp1 <- lmerTest::lmer(P3_amplitude ~ sPeak_force + (1|Subject_ID), data = data2use)
-# anova(P3_force_model_exp1)
-# summ(P3_force_model_exp1)
-# # r2beta(P3_force_model_exp1, method = "kr")
-# 
-# # Interaction follow-up 2 (stop trials)
-# data2use <- as.data.table(subset(all_data_exp1, Condition %in% c("Valid Go", "Failed Stop")))
-# data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
-# data2use <- as.data.table(subset(data2use, Condition %in% c("Failed Stop")))
-# P3_force_model_exp1 <- lmerTest::lmer(P3_amplitude ~ sPeak_force + (1|Subject_ID), data = data2use)
-# anova(P3_force_model_exp1)
-# summ(P3_force_model_exp1)
-# # r2beta(P3_force_C3_model_exp1, method = "kr")
-# 
-# # Exp. 2 - P3 ~ Force + Condition
-# data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go", "Failed Nogo")))
-# data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
-# P3_force_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force*Condition + (1|Subject_ID), data = data2use)
-# anova(P3_force_model_exp2)
-# summ(P3_force_model_exp2)
-# # r2beta(P3_force_model_exp2, method = "kr")
-# 
-# #interaction follow-up 1 (go trials)
-# data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go", "Failed Nogo")))
-# data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
-# data2use <- subset(data2use, Condition %in% c("Valid Go"))
-# P3_force_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force + (1|Subject_ID), data = data2use)
-# anova(P3_force_model_exp2)
-# summ(P3_force_model_exp2)
-# # r2beta(P3_force_model_exp2, method = "kr")
-# 
-# #interaction follow-up 2 (nogo trials)
-# data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go", "Failed Nogo")))
-# data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
-# data2use <- subset(data2use, Condition %in% c("Failed Nogo"))
-# P3_force_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force + (1|Subject_ID), data = data2use)
-# anova(P3_force_model_exp2)
-# summ(P3_force_model_exp2)
-# # r2beta(P3_force_model_exp2, method = "kr")
-# 
-# 
-# ### ACCOUNTING FOR MOTOR ACTIVATION ###
-# 
-# # follow-up accounting for motor-related activation 
-# data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go", "Failed Nogo")))
-# data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
-# P3_force_C3_model_exp2 <- lmerTest::lmer(sPeak_force ~ P3_amplitude*Condition*C3_amplitude + (1|Subject_ID), data = data2use)
-# anova(P3_force_C3_model_exp2)
-# summ(P3_force_C3_model_exp2)
-# # emmeans(P3_force_C3_model_exp2, pairwise ~ Condition, adjust = "Tukey")
-# 
-# #follow-up
-# data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Failed Nogo")))
-# data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
-# P3_force_C3_model_exp2 <- lmerTest::lmer(sPeak_force ~ P3_amplitude*C3_amplitude + (1|Subject_ID), data = data2use)
-# anova(P3_force_C3_model_exp2)
-# summ(P3_force_C3_model_exp2)
-# # emmeans(P3_force_C3_model_exp2, pairwise ~ Condition, adjust = "Tukey")
+data2use <- as.data.table(subset(all_data_exp1, Condition %in% c("Valid Go", "Failed Stop")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+P3_force_model_exp1 <- lmerTest::lmer(P3_amplitude ~ sPeak_force*Condition + (1|Subject_ID), data = data2use)
+anova(P3_force_model_exp1)
+summ(P3_force_model_exp1)
+# r2beta(P3_force_model_exp1, method = "kr")
+
+#interaction follow-up 1 (go trials)
+data2use <- as.data.table(subset(all_data_exp1, Condition %in% c("Valid Go", "Failed Stop")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+data2use <- subset(data2use, Condition %in% c("Valid Go"))
+P3_force_model_exp1 <- lmerTest::lmer(P3_amplitude ~ sPeak_force + (1|Subject_ID), data = data2use)
+anova(P3_force_model_exp1)
+summ(P3_force_model_exp1)
+# r2beta(P3_force_model_exp2, method = "kr")
+
+#interaction follow-up 2 (nogo trials)
+data2use <- as.data.table(subset(all_data_exp1, Condition %in% c("Valid Go", "Failed Stop")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+data2use <- subset(data2use, Condition %in% c("Failed Stop"))
+P3_force_model_exp1 <- lmerTest::lmer(P3_amplitude ~ sPeak_force + (1|Subject_ID), data = data2use)
+anova(P3_force_model_exp1)
+summ(P3_force_model_exp1)
+# r2beta(P3_force_model_exp2, method = "kr")
+
+# Exp. 2 - P3 ~ Force + Condition
+data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go", "Failed Nogo")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+P3_force_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force*Condition + (1|Subject_ID), data = data2use)
+anova(P3_force_model_exp2)
+summ(P3_force_model_exp2)
+# r2beta(P3_force_model_exp2, method = "kr")
+
+#interaction follow-up 1 (go trials)
+data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go", "Failed Nogo")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+data2use <- subset(data2use, Condition %in% c("Valid Go"))
+P3_force_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force + (1|Subject_ID), data = data2use)
+anova(P3_force_model_exp2)
+summ(P3_force_model_exp2)
+# r2beta(P3_force_model_exp2, method = "kr")
+
+#interaction follow-up 2 (nogo trials)
+data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go", "Failed Nogo")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+data2use <- subset(data2use, Condition %in% c("Failed Nogo"))
+P3_force_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force + (1|Subject_ID), data = data2use)
+anova(P3_force_model_exp2)
+summ(P3_force_model_exp2)
+# r2beta(P3_force_model_exp2, method = "kr")
+
+#############################################
+### ACCOUNTING FOR MOTOR ACTIVATION AT C3 ###
+#############################################
+# The above analysis showed that the P300-force relationship was observed on both Go and Stop/Nogo trials
+# This suggests that the P300-force effect may reflect general motor processes, instead of inhibitory control
+# To examine whether general motor motor processes completely accounts for the P300-force relationship,
+# we measured and include motor-activation at C3 during the time fo the stop-signal into our model
+# The results show that motor-activation explains part but not all of the P300-force relationship.
+
+rm(list=ls()) #clears environment
+data_folder <- dirname(rstudioapi::getSourceEditorContext()$path)
+all_data_exp1 <- data.table(read.xlsx(paste(data_folder, "all_data_exp1_sup.xlsx", sep = "/")))
+all_data_exp2 <- data.table(read.xlsx(paste(data_folder, "all_data_exp2_sup.xlsx", sep = "/")))
+# set condition variables as factors
+all_data_exp1$Condition <- factor(all_data_exp1$Condition)
+all_data_exp2$Condition <- factor(all_data_exp2$Condition)
+all_data_exp1$Condition2 <- factor(all_data_exp1$Condition2)
+all_data_exp2$Condition2 <- factor(all_data_exp2$Condition2)
+
+# Exp. 1
+data2use <- as.data.table(subset(all_data_exp1, Condition %in% c("Valid Go", "Failed Stop")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+P3_force_C3_model_exp1 <- lmerTest::lmer(P3_amplitude ~ sPeak_force*Condition*C3_amplitude + (1|Subject_ID), data = data2use)
+anova(P3_force_C3_model_exp1)
+summ(P3_force_C3_model_exp1)
+# emmeans(P3_force_C3_model_exp2, pairwise ~ Condition, adjust = "Tukey")
+
+# Exp. 2
+data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go", "Failed Nogo")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+P3_force_C3_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force*Condition*C3_amplitude + (1|Subject_ID), data = data2use)
+anova(P3_force_C3_model_exp2)
+summ(P3_force_C3_model_exp2)
+# emmeans(P3_force_C3_model_exp2, pairwise ~ Condition, adjust = "Tukey")
+
+#follow-up 1
+data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Valid Go")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+P3_force_C3_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force*C3_amplitude + (1|Subject_ID), data = data2use)
+anova(P3_force_C3_model_exp2)
+summ(P3_force_C3_model_exp2)
+# emmeans(P3_force_C3_model_exp2, pairwise ~ Condition, adjust = "Tukey")
+
+#follow-up 2
+data2use <- as.data.table(subset(all_data_exp2, Condition %in% c("Failed Nogo")))
+data2use[,sPeak_force := scale(Peak_force), by = Subject_ID]
+P3_force_C3_model_exp2 <- lmerTest::lmer(P3_amplitude ~ sPeak_force*C3_amplitude + (1|Subject_ID), data = data2use)
+anova(P3_force_C3_model_exp2)
+summ(P3_force_C3_model_exp2)
+# emmeans(P3_force_C3_model_exp2, pairwise ~ Condition, adjust = "Tukey")
+
